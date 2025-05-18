@@ -55,5 +55,4 @@ class No {
     public String toString() {
         return "[" + info + "]";
     }
-    
 }

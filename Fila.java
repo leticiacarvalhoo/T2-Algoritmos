@@ -16,7 +16,7 @@ public class Fila {
     public boolean filaCheia() {
         return ocupacao == dados.length;
     }
-    public int proximaPosicao(int posicao) { //constroi a estrutura circular
+    public int proximaPosicao(int posicao) { //constroi a estrutura e comportamento circular
         return (posicao + 1) % dados.length;
     }
     public void enfileira (int e) {
@@ -32,6 +32,7 @@ public class Fila {
         ocupacao--;
         return temp;
     }
+
     @Override
     public String toString() {
         if (filaVazia()) return "fila vazia";

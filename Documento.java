@@ -12,19 +12,15 @@ public class Documento {
         this.nomeUsuario = nomeUsuario;
         this.horarioSolicitacao = LocalDateTime.now();
     }
-    
     public String getNomeArquivo() {
         return nomeArquivo;
     }
-    
     public String getNomeUsuario() {
         return nomeUsuario;
     }
-    
     public LocalDateTime getHorarioSolicitacao() {
         return horarioSolicitacao;
     }
-    
     public long calcularTempoEspera() {
         return ChronoUnit.SECONDS.between(horarioSolicitacao, LocalDateTime.now());
     }
@@ -33,6 +29,6 @@ public class Documento {
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         return "Documento[" + nomeArquivo + ", usuário: " + nomeUsuario + 
-               ", solicitado: " + horarioSolicitacao.format(formatter) + "]";
+                ", solicitado: " + horarioSolicitacao.format(formatter) + "]";
     }
 }

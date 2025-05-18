@@ -52,6 +52,7 @@ public class SistemaGerenciamentoImpressao {
             switch (opcao) {
                 case 1:
                     adicionarDocumentoFila();
+                    
                     break;
                 case 2:
                     imprimirDocumento();
@@ -96,11 +97,13 @@ public class SistemaGerenciamentoImpressao {
         String nomeUsuario = scanner.nextLine();
         
         filaImpressao.adicionarDocumento(new Documento(nomeArquivo, nomeUsuario));
+        System.out.println("Documento adicionado com sucesso: " + nomeArquivo);
     }
     
     private void imprimirDocumento() {
         Documento doc = filaImpressao.imprimirDocumento();
         System.out.println("Documento impresso com sucesso: " + doc.getNomeArquivo());
+        System.out.println("Tempo de espera: " + doc.calcularTempoEspera() + " segundos");
     }
     
     private void consultarDocumentoFila() {
@@ -124,12 +127,15 @@ public class SistemaGerenciamentoImpressao {
         System.out.print("Nome do usuário: ");
         String nomeUsuario = scanner.nextLine();
         
+        Documento doc = new Documento(nomeArquivo, nomeUsuario);
         pilhaReimpressao.adicionarDocumento(new Documento(nomeArquivo, nomeUsuario));
+        System.out.println("Documento adicionado à pilha de reimpressão: " + doc.getNomeArquivo());
     }
     
     private void reimprimirDocumento() {
         Documento doc = pilhaReimpressao.reimprimirDocumento();
         System.out.println("Documento reimpresso com sucesso: " + doc.getNomeArquivo());
+        System.out.println("Tempo de espera: " + doc.calcularTempoEspera() + " segundos");
     }
     
     private void consultarDocumentoPilha() {
@@ -172,7 +178,7 @@ public class SistemaGerenciamentoImpressao {
         
         System.out.println("Foram adicionados " + adicionados + " documentos com sucesso.");
     }
-    
+
     public static void main(String[] args) {
         SistemaGerenciamentoImpressao sistema = new SistemaGerenciamentoImpressao();
         sistema.iniciar();

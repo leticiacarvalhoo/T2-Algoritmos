@@ -24,23 +24,19 @@ public class PilhaReimpressao {
     public void adicionarDocumento(Documento doc) {
         if (pilhaCheia())
             throw new RuntimeException("Pilha de reimpressão cheia");
+
         documentos.add(doc);
         indicadorPilha.push((char) tamanho);
         tamanho++;
-
-        System.out.println("Documento adicionado à pilha de reimpressão: " + doc.getNomeArquivo());
     }
 
     public Documento reimprimirDocumento() {
         if (pilhaVazia())
             throw new RuntimeException("Pilha de reimpressão vazia");
+
         int indice = (int) indicadorPilha.pop();
         Documento doc = documentos.get(indice);
         tamanho--;
-
-        System.out.println("Reimprimindo documento: " + doc.getNomeArquivo());
-        System.out.println("Tempo de espera: " + doc.calcularTempoEspera() + " segundos");
-
         return doc;
     }
 
@@ -50,7 +46,7 @@ public class PilhaReimpressao {
                 return doc;
             }
         }
-        return null;
+        throw new DocumentoNaoEncontradoException(nomeArquivo);
     }
 
     public String gerarRelatorio() {
@@ -79,5 +75,11 @@ public class PilhaReimpressao {
             sb.append(posicao++).append(". ").append(doc.toString()).append("\n");
         }
         return sb.toString();
+    }
+
+    public class DocumentoNaoEncontradoException extends RuntimeException {
+        public DocumentoNaoEncontradoException(String nomeArquivo) {
+            super("Documento não encontrado: " + nomeArquivo);
+        }
     }
 }
