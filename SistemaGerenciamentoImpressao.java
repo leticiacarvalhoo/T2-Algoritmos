@@ -38,6 +38,7 @@ public class SistemaGerenciamentoImpressao {
         System.out.println("7. Consultar documento na pilha de reimpressão");
         System.out.println("8. Exibir relatório da pilha de reimpressão");
         System.out.println("9. Carregar documentos de arquivo texto");
+        System.out.println("10. Buscar documento no sistema");
         System.out.println("0. Sair");
         System.out.print("Escolha uma opção: ");
     }
@@ -80,6 +81,9 @@ public class SistemaGerenciamentoImpressao {
                     break;
                 case 9:
                     carregarDocumentosDeArquivo();
+                    break;
+                case 10:
+                    buscarDocumentoNoSistema();
                     break;
                 case 0:
                     System.out.println("Encerrando o sistema...");
@@ -187,6 +191,36 @@ public class SistemaGerenciamentoImpressao {
             }
         }
         System.out.println("Foram adicionados " + adicionados + " documentos com sucesso.");
+    }
+
+    private void buscarDocumentoNoSistema() {
+        System.out.print("Digite o nome do documento a buscar: ");
+        String nomeArquivo = scanner.nextLine();
+        
+        Documento docEncontrado = LeitorArquivos.buscarDocumento(nomeArquivo, filaImpressao, pilhaReimpressao);
+        
+        if (docEncontrado != null) {
+            System.out.println("Tempo de espera: " + docEncontrado.calcularTempoEspera() + " segundos");
+        } else {
+            System.out.println("Deseja adicionar este documento ao sistema? (S/N)");
+            String resposta = scanner.nextLine().toUpperCase();
+            if (resposta.equals("S")) {
+                System.out.print("Nome do usuário: ");
+                String nomeUsuario = scanner.nextLine();
+                
+                System.out.print("Adicionar à fila de impressão (F) ou pilha de reimpressão (P)? ");
+                String destino = scanner.nextLine().toUpperCase();
+                
+                Documento novoDoc = new Documento(nomeArquivo, nomeUsuario);
+                if (destino.equals("F")) {
+                    filaImpressao.adicionarDocumento(novoDoc);
+                    System.out.println("Documento adicionado à fila de impressão.");
+                } else if (destino.equals("P")) {
+                    pilhaReimpressao.push(novoDoc);
+                    System.out.println("Documento adicionado à pilha de reimpressão.");
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {

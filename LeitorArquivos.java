@@ -23,4 +23,25 @@ public class LeitorArquivos {
         }
         return documentos;
     }
+    
+    public static Documento buscarDocumento(String nomeArquivo, FilaImpressao fila, Pilha pilhaReimpressao) {
+        try {
+            Documento docFila = fila.consultarDocumento(nomeArquivo);
+            System.out.println("Documento encontrado na fila de impressão:");
+            System.out.println(docFila);
+            return docFila;
+        } catch (FilaImpressao.DocumentoNaoEncontradoException e) {
+        }
+        
+        try {
+            Documento docPilha = pilhaReimpressao.consultarDocumento(nomeArquivo);
+            System.out.println("Documento encontrado na pilha de reimpressão:");
+            System.out.println(docPilha);
+            return docPilha;
+        } catch (Pilha.DocumentoNaoEncontradoException e) {
+        }
+        
+        System.out.println("Documento '" + nomeArquivo + "' não encontrado no sistema.");
+        return null;
+    }
 }
