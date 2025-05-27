@@ -4,16 +4,16 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SistemaGerenciamentoImpressao {
-    private static final int CAPACIDADE_FILA = 10;
-    private static final int CAPACIDADE_PILHA = 5;
+    private static final int CAPACIDADE_FILA = 10; 
+    private static final int CAPACIDADE_PILHA = 5; 
 
-    private FilaImpressao filaImpressao;
-    private PilhaReimpressao pilhaReimpressao;
-    private Scanner scanner;
+    private FilaImpressao filaImpressao;       
+    private Pilha pilhaReimpressao;            
+    private Scanner scanner;                  
 
     public SistemaGerenciamentoImpressao() {
         this.filaImpressao = new FilaImpressao(CAPACIDADE_FILA);
-        this.pilhaReimpressao = new PilhaReimpressao(CAPACIDADE_PILHA);
+        this.pilhaReimpressao = new Pilha(CAPACIDADE_PILHA);
         this.scanner = new Scanner(System.in);
     }
 
@@ -24,6 +24,7 @@ public class SistemaGerenciamentoImpressao {
             opcao = lerOpcao();
             processarOpcao(opcao);
         } while (opcao != 0);
+        scanner.close();
     }
 
     private void exibirMenu() {
@@ -45,6 +46,7 @@ public class SistemaGerenciamentoImpressao {
         try {
             return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
+            System.out.println("Entrada inválida. Por favor, digite um número.");
             return -1;
         }
     }
@@ -54,7 +56,6 @@ public class SistemaGerenciamentoImpressao {
             switch (opcao) {
                 case 1:
                     adicionarDocumentoFila();
-
                     break;
                 case 2:
                     imprimirDocumento();
@@ -84,7 +85,7 @@ public class SistemaGerenciamentoImpressao {
                     System.out.println("Encerrando o sistema...");
                     break;
                 default:
-                    System.out.println("Opção inválida!");
+                    System.out.println("Opção inválida! Por favor, tente novamente.");
             }
         } catch (RuntimeException e) {
             System.out.println("Erro: " + e.getMessage());
@@ -116,12 +117,12 @@ public class SistemaGerenciamentoImpressao {
         System.out.print("Nome do arquivo a consultar: ");
         String nomeArquivo = scanner.nextLine();
 
-        int posicao = filaImpressao.buscarDocumento(nomeArquivo);
-        if (posicao != -1) {
+        try {
+            int posicao = filaImpressao.buscarPosicaoDocumento(nomeArquivo);
             Documento doc = filaImpressao.consultarDocumento(nomeArquivo);
             System.out.println("Documento encontrado na posição " + (posicao + 1) + " da fila:");
             System.out.println(doc);
-        } else {
+        } catch (FilaImpressao.DocumentoNaoEncontradoException e) {
             System.out.println("Documento não encontrado na fila.");
         }
     }
@@ -134,12 +135,12 @@ public class SistemaGerenciamentoImpressao {
         String nomeUsuario = scanner.nextLine();
 
         Documento doc = new Documento(nomeArquivo, nomeUsuario);
-        pilhaReimpressao.adicionarDocumento(new Documento(nomeArquivo, nomeUsuario));
+        pilhaReimpressao.push(doc);
         System.out.println("Documento adicionado à pilha de reimpressão: " + doc.getNomeArquivo());
     }
 
     private void reimprimirDocumento() {
-        Documento doc = pilhaReimpressao.reimprimirDocumento();
+        Documento doc = pilhaReimpressao.pop();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         String horario = LocalDateTime.now().format(formatter);
 
@@ -152,11 +153,11 @@ public class SistemaGerenciamentoImpressao {
         System.out.print("Nome do arquivo a consultar: ");
         String nomeArquivo = scanner.nextLine();
 
-        Documento doc = pilhaReimpressao.consultarDocumento(nomeArquivo);
-        if (doc != null) {
+        try {
+            Documento doc = pilhaReimpressao.consultarDocumento(nomeArquivo);
             System.out.println("Documento encontrado na pilha de reimpressão:");
             System.out.println(doc);
-        } else {
+        } catch (Pilha.DocumentoNaoEncontradoException e) {
             System.out.println("Documento não encontrado na pilha.");
         }
     }
@@ -177,7 +178,7 @@ public class SistemaGerenciamentoImpressao {
                 if (destino.equals("F")) {
                     filaImpressao.adicionarDocumento(doc);
                 } else if (destino.equals("P")) {
-                    pilhaReimpressao.adicionarDocumento(doc);
+                    pilhaReimpressao.push(doc);
                 }
                 adicionados++;
             } catch (RuntimeException e) {
@@ -185,7 +186,6 @@ public class SistemaGerenciamentoImpressao {
                 break;
             }
         }
-
         System.out.println("Foram adicionados " + adicionados + " documentos com sucesso.");
     }
 

@@ -1,58 +1,127 @@
 public class Pilha {
     private No topo;
+    private int capacidade;
+    private int tamanho;
 
-    public void push (char info) {
-        No novo = new No(info);
-        if (!pilhaVazia()) {
-            novo.setProximo(topo);
+    private static class No {
+        private Documento info;
+        private No proximo;
+
+        public No(Documento info) {
+            this.info = info;
+            this.proximo = null;
         }
-        topo = novo;
+
+        public Documento getInfo() {
+            return info;
+        }
+
+        public void setInfo(Documento info) {
+            this.info = info;
+        }
+
+        public No getProximo() {
+            return proximo;
+        }
+
+        public void setProximo(No proximo) {
+            this.proximo = proximo;
+        }
     }
+
+    public class DocumentoNaoEncontradoException extends RuntimeException {
+        public DocumentoNaoEncontradoException(String nomeArquivo) {
+            super("Documento não encontrado: " + nomeArquivo);
+        }
+    }
+
+    public Pilha(int capacidade) {
+        this.topo = null;
+        this.capacidade = capacidade;
+        this.tamanho = 0;
+    }
+
     public boolean pilhaVazia() {
         return topo == null;
     }
-    public char pop() {
-        if (pilhaVazia())
-            throw new RuntimeException("pilha vazia, falha no pop");
-        char info = topo.getInfo();
+
+    public boolean pilhaCheia() {
+        return tamanho >= capacidade;
+    }
+
+    public void push(Documento doc) {
+        if (pilhaCheia()) {
+            throw new RuntimeException("Pilha cheia, não é possível adicionar mais documentos.");
+        }
+        No novo = new No(doc);
+        novo.setProximo(topo); 
+        topo = novo;
+        tamanho++;
+    }
+
+    public Documento pop() {
+        if (pilhaVazia()) {
+            throw new RuntimeException("Pilha vazia, não é possível remover documentos.");
+        }
+        Documento info = topo.getInfo();
         topo = topo.getProximo();
+        tamanho--;
         return info;
     }
-    public char peek () {
-        //consulta o elemento do topo, sem desmpilhar
-        if (pilhaVazia()) 
-            throw new RuntimeException("pilha vazia");
+
+    public Documento peek() {
+        if (pilhaVazia()) {
+            throw new RuntimeException("Pilha vazia, não há documentos para consultar.");
+        }
         return topo.getInfo();
     }
-    public void invertePilha() {
-        //inverte a pilha 
-        Pilha p = new Pilha();
-        while (!pilhaVazia()) {
-            p.push(this.pop());
+
+    public Pilha copiar() {
+        Pilha copia = new Pilha(this.capacidade); 
+        Pilha aux = new Pilha(this.capacidade);
+        No atual = topo;
+        while (atual != null) {
+            aux.push(atual.getInfo());
+            atual = atual.getProximo();
         }
-        this.topo = p.topo;
+
+        while (!aux.pilhaVazia()) {
+            Documento d = aux.pop();
+            copia.push(d);
+        }
+
+        return copia;
     }
-}
-class No {
-    private char info;
-    private No proximo;
-    public No(char info) {
-        this.info = info;
+
+    public Documento consultarDocumento(String nomeArquivo) {
+        Pilha aux = this.copiar();
+        while (!aux.pilhaVazia()) {
+            Documento d = aux.pop();
+            if (d.getNomeArquivo().equals(nomeArquivo)) {
+                return d; // Documento encontrado.
+            }
+        }
+        throw new DocumentoNaoEncontradoException(nomeArquivo);
     }
-    public char getInfo() {
-        return info;
-    }
-    public void setInfo(char info) {
-        this.info = info;
-    }
-    public No getProximo() {
-        return proximo;
-    }
-    public void setProximo(No proximo) {
-        this.proximo = proximo;
-    }
-    @Override
-    public String toString() {
-        return "[" + info + "]";
+
+    public String gerarRelatorio() {
+        if (pilhaVazia()) {
+            return "Pilha de documentos vazia.";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Relatório da Pilha de Documentos:\n");
+        sb.append("Ocupação: ").append(tamanho).append("/").append(capacidade).append("\n");
+        sb.append("Documentos na pilha (do topo para a base):\n");
+
+        Pilha aux = this.copiar();
+        int pos = 1;
+
+        while (!aux.pilhaVazia()) {
+            Documento d = aux.pop();
+            sb.append(pos++).append(". ").append(d).append("\n");
+        }
+
+        return sb.toString();
     }
 }
