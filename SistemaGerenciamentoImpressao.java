@@ -37,17 +37,16 @@ public class SistemaGerenciamentoImpressao {
         System.out.println("6. Reimprimir documento da pilha");
         System.out.println("7. Consultar documento na pilha de reimpressão");
         System.out.println("8. Exibir relatório da pilha de reimpressão");
-        System.out.println("9. Carregar documentos de arquivo texto");
-        System.out.println("10. Buscar documento no sistema");
         System.out.println("0. Sair");
         System.out.print("Escolha uma opção: ");
     }
 
     private int lerOpcao() {
         try {
-            return Integer.parseInt(scanner.nextLine());
+            int op = scanner.nextInt();
+            return op;
         } catch (NumberFormatException e) {
-            System.out.println("Entrada inválida. Por favor, digite um número.");
+            System.out.println("Entrada invalida. Por favor, digite um numero.");
             return -1;
         }
     }
@@ -79,12 +78,6 @@ public class SistemaGerenciamentoImpressao {
                 case 8:
                     System.out.println(pilhaReimpressao.gerarRelatorio());
                     break;
-                case 9:
-                    carregarDocumentosDeArquivo();
-                    break;
-                case 10:
-                    buscarDocumentoNoSistema();
-                    break;
                 case 0:
                     System.out.println("Encerrando o sistema...");
                     break;
@@ -97,6 +90,7 @@ public class SistemaGerenciamentoImpressao {
     }
 
     private void adicionarDocumentoFila() {
+        scanner.nextLine(); // Limpar o buffer do scanner
         System.out.print("Nome do arquivo: ");
         String nomeArquivo = scanner.nextLine();
 
@@ -118,6 +112,7 @@ public class SistemaGerenciamentoImpressao {
     }
 
     private void consultarDocumentoFila() {
+        scanner.nextLine(); // Limpar o buffer do scanner
         System.out.print("Nome do arquivo a consultar: ");
         String nomeArquivo = scanner.nextLine();
 
@@ -132,6 +127,7 @@ public class SistemaGerenciamentoImpressao {
     }
 
     private void adicionarDocumentoPilha() {
+        scanner.nextLine(); // Limpar o buffer do scanner
         System.out.print("Nome do arquivo para reimpressão: ");
         String nomeArquivo = scanner.nextLine();
 
@@ -154,6 +150,7 @@ public class SistemaGerenciamentoImpressao {
     }
 
     private void consultarDocumentoPilha() {
+        scanner.nextLine(); // Limpar o buffer do scanner
         System.out.print("Nome do arquivo a consultar: ");
         String nomeArquivo = scanner.nextLine();
 
@@ -166,34 +163,8 @@ public class SistemaGerenciamentoImpressao {
         }
     }
 
-    private void carregarDocumentosDeArquivo() {
-        System.out.print("Informe o caminho do arquivo de documentos: ");
-        String caminho = scanner.nextLine();
-
-        List<Documento> documentos = LeitorArquivos.lerDocumentosDeArquivo(caminho);
-        System.out.println("Foram encontrados " + documentos.size() + " documentos no arquivo.");
-
-        System.out.print("Adicionar à fila de impressão (F) ou pilha de reimpressão (P)? ");
-        String destino = scanner.nextLine().toUpperCase();
-
-        int adicionados = 0;
-        for (Documento doc : documentos) {
-            try {
-                if (destino.equals("F")) {
-                    filaImpressao.adicionarDocumento(doc);
-                } else if (destino.equals("P")) {
-                    pilhaReimpressao.push(doc);
-                }
-                adicionados++;
-            } catch (RuntimeException e) {
-                System.out.println("Não foi possível adicionar mais documentos: " + e.getMessage());
-                break;
-            }
-        }
-        System.out.println("Foram adicionados " + adicionados + " documentos com sucesso.");
-    }
-
     private void buscarDocumentoNoSistema() {
+        scanner.nextLine(); // Limpar o buffer do scanner
         System.out.print("Digite o nome do documento a buscar: ");
         String nomeArquivo = scanner.nextLine();
         
