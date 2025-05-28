@@ -65,8 +65,8 @@ public class FilaImpressao {
             return "Fila vazia";
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Relatório de Impressão:\n");
-        sb.append("Ocupação: ").append(ocupacao).append("/").append(dados.length).append("\n");
+        sb.append("Relatorio de Impressao:\n");
+        sb.append("Ocupacao: ").append(ocupacao).append("/").append(dados.length).append("\n");
         sb.append("Documentos na fila:\n");
 
         for (int i = primeiro, cont = 0, pos = 1; cont < ocupacao; cont++, i = proximaPosicao(i), pos++) {
@@ -77,7 +77,7 @@ public class FilaImpressao {
 
     public class DocumentoNaoEncontradoException extends RuntimeException {
         public DocumentoNaoEncontradoException(String nomeArquivo) {
-            super("Documento não encontrado: " + nomeArquivo);
+            super("Documento nao encontrado: " + nomeArquivo);
         }
     }
 }

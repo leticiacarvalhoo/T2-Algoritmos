@@ -16,10 +16,6 @@ public class Pilha {
             return info;
         }
 
-        public void setInfo(Documento info) {
-            this.info = info;
-        }
-
         public No getProximo() {
             return proximo;
         }
@@ -31,7 +27,7 @@ public class Pilha {
 
     public class DocumentoNaoEncontradoException extends RuntimeException {
         public DocumentoNaoEncontradoException(String nomeArquivo) {
-            super("Documento não encontrado: " + nomeArquivo);
+            super("Documento nao encontrado: " + nomeArquivo);
         }
     }
 
@@ -51,7 +47,7 @@ public class Pilha {
 
     public void push(Documento doc) {
         if (pilhaCheia()) {
-            throw new RuntimeException("Pilha cheia, não é possível adicionar mais documentos.");
+            throw new RuntimeException("Pilha cheia, nao e possivel adicionar mais documentos.");
         }
         No novo = new No(doc);
         novo.setProximo(topo); 
@@ -61,7 +57,7 @@ public class Pilha {
 
     public Documento pop() {
         if (pilhaVazia()) {
-            throw new RuntimeException("Pilha vazia, não é possível remover documentos.");
+            throw new RuntimeException("Pilha vazia, nao e possivel remover documentos.");
         }
         Documento info = topo.getInfo();
         topo = topo.getProximo();
@@ -71,7 +67,7 @@ public class Pilha {
 
     public Documento peek() {
         if (pilhaVazia()) {
-            throw new RuntimeException("Pilha vazia, não há documentos para consultar.");
+            throw new RuntimeException("Pilha vazia, nao ha documentos para consultar.");
         }
         return topo.getInfo();
     }
@@ -89,7 +85,6 @@ public class Pilha {
             Documento d = aux.pop();
             copia.push(d);
         }
-
         return copia;
     }
 
@@ -98,7 +93,7 @@ public class Pilha {
         while (!aux.pilhaVazia()) {
             Documento d = aux.pop();
             if (d.getNomeArquivo().equals(nomeArquivo)) {
-                return d; // Documento encontrado.
+                return d; 
             }
         }
         throw new DocumentoNaoEncontradoException(nomeArquivo);
@@ -110,8 +105,8 @@ public class Pilha {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Relatório da Pilha de Documentos:\n");
-        sb.append("Ocupação: ").append(tamanho).append("/").append(capacidade).append("\n");
+        sb.append("Relatorio da Pilha de Documentos:\n");
+        sb.append("Ocupacao: ").append(tamanho).append("/").append(capacidade).append("\n");
         sb.append("Documentos na pilha (do topo para a base):\n");
 
         Pilha aux = this.copiar();
@@ -121,7 +116,6 @@ public class Pilha {
             Documento d = aux.pop();
             sb.append(pos++).append(". ").append(d).append("\n");
         }
-
         return sb.toString();
     }
 }
