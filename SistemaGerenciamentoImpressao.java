@@ -1,3 +1,10 @@
+/*                            
+Breno Augusto Oliveira Gandolfo - 24.01496-6
+Gustavo Seripierri - 24.00630-0
+Leticia de Carvalho Silva - 24.00141-4
+Lyssa Okawa Perini - 24.01193-2
+*/
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
