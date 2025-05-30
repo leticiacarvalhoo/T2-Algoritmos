@@ -1,6 +1,12 @@
 # Sistema de Gerenciamento de Impressão
  Bem-vindo ao Sistema de Gerenciamento de Impressão! Este projeto simula o gerenciamento de uma fila de impressão e uma pilha de reimpressão, permitindo adicionar, consultar, imprimir e reimprimir documentos, além de carregar documentos a partir de arquivos texto.
 
+## Autores
+<p><a href="https://github.com/brenoaugustoog" target="_blank">👨‍💻 Breno Augusto Oliveira Gandolfo - 24.01496-6</a></p>
+<p><a href="https://github.com/gustavoseripierri" target="_blank">👨‍💻 Gustavo Seripierri - 24.00630-0</a></p>
+<p><a href="https://github.com/leticiacarvalhoo" target="_blank">👩‍💻 Leticia de Carvalho Silva - 24.00141-4</a></p>
+<p><a href="https://github.com/lyssaokawaperini" target="_blank">👩‍💻 Lyssa Okawa Perini - 24.01193-2</a></p>
+
 ## Índice
  - Descrição
  - Funcionalidades
@@ -153,11 +159,5 @@ Exemplo de caminho no Windows:
 ```
   C:\Users\SeuUsuario\documentos.txt
 ```
-
-## Autores
-<p><a href="https://github.com/brenoaugustoog" target="_blank">👨‍💻 Breno Augusto Oliveira Gandolfo - 24.01496-6</a></p>
-<p><a href="https://github.com/gustavoseripierri" target="_blank">👨‍💻 Gustavo Seripierri - 24.00630-0</a></p>
-<p><a href="https://github.com/leticiacarvalhoo" target="_blank">👩‍💻 Leticia de Carvalho Silva - 24.00141-4</a></p>
-<p><a href="https://github.com/lyssaokawaperini" target="_blank">👩‍💻 Lyssa Okawa Perini - 24.01193-2</a></p>
 
 # Trabalho desenvolvido para a disciplina de Algoritmos, Estruturas de Dados e Programação.
